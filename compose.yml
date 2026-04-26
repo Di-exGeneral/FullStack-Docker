@@ -1,0 +1,32 @@
+services:
+
+  web:
+    build: web/project
+    ports:
+      - "8000:8000"
+
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=${DEBUG}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - POSTGRES_DB=${dbname}
+      - POSTGRES_USER=${dbuser}
+      - POSTGRES_PASSWORD=${dbpassword}
+
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_PASSWORD=${dbpassword}
+
+
+
+  server:
+    build: nginx
+    ports:
+      - "80:80"
+
+    depends_on:
+      - web
+
+
